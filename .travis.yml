@@ -1,0 +1,16 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS user_service;'
+  
+test:
+  adapter: mysql2
+  database: user_service
+  username: travis
+  encoding: utf8
