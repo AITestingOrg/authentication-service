@@ -1,9 +1,8 @@
 spring:
   application:
-    name: authenticationservice
+    name: user-service
   profiles:
-    active:
-      default
+    active: development
   cloud:
     config:
       enabled: true

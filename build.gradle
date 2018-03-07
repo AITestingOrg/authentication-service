@@ -22,26 +22,30 @@ repositories {
 	mavenCentral()
 }
 
-
 ext {
 	springCloudVersion = 'Edgware.SR2'
 }
 
 dependencies {
+
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    
     compile('org.springframework.cloud:spring-cloud-starter-config')
     compile('org.springframework.cloud:spring-cloud-starter-eureka')
     compile('org.springframework.cloud:spring-cloud-config-client')
     compile('org.springframework.cloud:spring-cloud-starter-hystrix')
     compile('org.springframework.cloud:spring-cloud-security')
+    
     compile('org.springframework.security.oauth:spring-security-oauth2')
     compile('org.springframework.security:spring-security-jwt')
+    compile('org.springframework.security:spring-security-rsa')
+    
     compile('com.h2database:h2')
     compile('postgresql:postgresql:9.1-901.jdbc4')
     compile 'mysql:mysql-connector-java'
-    compile('org.springframework.security:spring-security-rsa')
+    
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
@@ -51,3 +55,4 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+

@@ -1,9 +1,21 @@
-#Setting the logging levels for the service
+spring:
+  profiles:
+    active: development
+---
+spring:
+  profiles: development
+  
+  datasource:
+    url: jdbc:mysql://mysql-server:3306/user_service
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    
 logging:
   level:
     com.netflix: WARN
     org.springframework.web: WARN
-    com.thoughtmechanix: DEBUG
+    org.aitesting.microservices: DEBUG
 
 eureka:
   instance:
@@ -12,7 +24,43 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://eureka-server:8761/eureka/
+        defaultZone: http://discovery-service:8761/eureka/
 
 server:
   contextPath:   /auth
+  port: 8091
+
+---
+spring:
+  profiles: docker
+  
+  datasource:
+    url: jdbc:mysql://mysql-server:3306/user_service
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    org.aitesting.microservices: DEBUG
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+        defaultZone: http://discovery-service:8761/eureka/
+
+server:
+  contextPath:   /auth
+  port: 8091
+
+  
+jpa:
+  database: MYSQL
+  hibernate:
+    ddl-auto: validate
