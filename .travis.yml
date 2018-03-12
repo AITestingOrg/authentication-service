@@ -1,16 +1,33 @@
 language: java
-
 jdk:
   - oraclejdk8
-  
+sudo: required
 services:
   - mysql
-
-before_install:
-  - mysql -e 'CREATE DATABASE IF NOT EXISTS user_service;'
-  
+env:
+  global:
+    - secure: CjE5hbz5C8ufRWmew2cohkIYSYf9w6aHWGPcHmF3Va1u+6cxcY6WC936xn22p6PDVqYrcAez1iKEhCtuOK+VCPMGgHw8JYjveDtYmu82fjV6csw540wV0Zh6r2FWFxdHVCRCAvtSiYGYczZ8a3N/tizlkoSJtBe1mpLXgzQ1oAjeGQ990ABNskRo2UN26s7aHBMtKS/+ztSK6D5ZRTk7nDEdeBmzohEniJyd6qb+Ubl7dHesSZw6Lmb19DiPU7DQN037CMV7aWIaEJeMsVJWjExdkY4hMxi4dFmgnQo0pyr4G8lOm3gc3xRiooKJGwaMaZ4oqWhtSIBnrVqyqmih7lOpZ/8TOP1QDLbOqyMdaJhrLv1bpqwGeW2vl2eOJAy4S/SIF4gXD3JG/RX54wmwHSABSJEhAMFc3W/i2DP9ZZ4JHgZvaKFSeo0qEGZVsHH5zsgfJw+6BhjvMLrmIR9iOudWXxodnZ/n9G9q6/PXSXg0EywhzeHq6IF9YSK+cfgel0d3TlL2hPnjeD0rKszun6Ura5Q2b2/+ooCO2wCUBMjSfuwErdL/XWq9mALw1AfaCjEa4zCZsGDf5zA6CRkg4k7guK+Hof6OPTWafEUXI9OqfKG0X10q9WFnuOxD2jcW7yswaOfIxaKDi5sIRNHsK23UoHc2zLjOhWU8AkqU9b4=
+    - secure: PKE1rTjqmxbbtr6ngzcNcfemAjq8e2GzN3l0N6I117IsK2gSvU+nSIZ8Kz06zMJcwXfX8Vj0aehKv5sNCpB6naPqZBIWdIT8xhBckiPgP+ykgF1lIBbk6IDjIixXhTq6IZ4RdWtqPjfO394f7XD93a3wUGb3T1bEuIOBHeZmxfL+MKdsC9R++STQ3cAzxY0BMud8eabmjyeWNFZZri8DD8ZlDr6c2ekA0oM5p8A6jb2zMcYqnPPSovjbgHFb8BsuJPS8HR1UjoM4hkn2jCWSTfRzql59Y49CLQlEarv62crd+x1nL2P0GQgQSobxmWB3CIrqzXPdQEG941o8do6QsycgWA8Fs1jqyn148P9xu151uHUdkOhXG3NGI+usKurk3jJtMSjp+JxxrOYEJIUDICgxKLIM4OEp30cYhESobQFWVO8GYRFl+W8rWkJVCn0h2S259lAAy2rmQQLk/JS0WkIuxO/t3XuQ19bsX2TlRnWKb5FWD4TxiNdgA8wuYI2s7FmlRSCPp1OfqEoKK3Jgt1osb/PolwoyhXUKMfHoGjkUt6RHt+pybRTGNeEi5HIbfS3vf+8mH22lRiVfiv7lgdy4Z8cNpjOkM7HMEabiuf3RM+quef52gBh7mNAEBCR0VKgYIiO2xNzP9ylhGK5Q5Fx6kyy79doTLMs/236dWNA=
+    - secure: LAITws6oMwNLJZBBbvtmktMWlBvvvaMEFtx8YATELRr2XdxjT6F5hRl+VE3Bn3TlGyJCph+Prrdim6V40e1fFg1GxJRFu9N7nwL7yK61exhJB5AZrlXmVVt+NdOJGVRaDhazNWZzYFEleySTAVehJWatb6VS/fp+75tPOBurP8NX6Ed+NnyFMIJYtOjZSETHwSM4WWKaIJaswN3/flWoNrfMSB0zomZTiFTYETM+sB2rM4UGuq64wDAXFmRCTYpsirkGpzPe5HfVA472sJlwfZUQ48F7Rd3v1/6+Z74AS8BYiK1L3jk7F4WFbGlBXd7XYiAWEnSJCCGZaFBRtaHoCtT3yaDjx9rPO/BZ6idmJVez8mbqS7jZ/2Hiny6AoY+ROOKH7fN9gG05KS/Hw1uBqzeIiNI4GsuI+UGnc+AI4ocvuDAHuVtCZ7hGc7gwtdoCap0PzV32ZsNeM91+ZcEBnaCwdYDGCs0jcTiHgfqxGuShcA/puR/VYJe9qfpHI/tp2ybnLlyGNNIJ7wMQ1lcqMzLeU5YMfyLVy7QxpvchfY4oU7yA8BAzrFZTCqiWEtWuhmOYIcH4R0uhieaaxLF3RGKPo2l+tDuNklHsISZrk7WJb0q0UdTfG/oVOpHAUq9pF+Bu3MBUi+TVyPJRBi3OEMuZ0CaKafmJZLwfDkyWD/Q=
+    - secure: WnJtm+GyzoUBfhVcCITXVGKP9JAV7wGn+sflSiTXnIVnvmM43VgfJv4PSOoDGDuHAx6yb8Y2s5qJcLOSjyzGhvKwWtNVJHsp+j+OlHc7dRG6XWHmW3Mt0THyQhtckkiGO7TNT/WCTP71pekXC1d88vM6IuR1++aa+KCffhPq5OpSIHx3B3nnBnQ9Z+PxfvC7Gkc4ss53XxI5usaWKeNhi7qgePuwTRJahzcgXhQasxTDrwPxBuPnSB3LmeMIpEqIbF9qWHkn03jS8lzIU/DHgYWsD4egIMfxY5Evk8PahKmBhbLhwk2A3LRjFg5Cr8NXbV9NGR2IYq2P46Nv2m0oVbFp4BCDNfhHOnMTKfMy0zLnJEVobJ89UbLvc8pSdQEYlR/HvFeoUL6m5KhfrLllroc5aGiAmCs921yNTVT+eN+MD4Oa1r2fa8ljuQfKKr/1gkZWTcDMur1NZTBMnherhrr8F2GUao2Mb0vjFSZlWKRggeZcdBB6R0BuU05UHJUn/KR7NCHyVNaAwTsPT4yZCCpiNZF7AF/EnC9zQgKSalsHZ1RwXhEMu6eldkT47XS+FvlH4AnbpOuX/AW0WCP9p2dkKudFu5NpDh/fj2WsSECw7OLotux+pmyI1B4KgtJfZCYhWOklWiaIZ8Psqvu7Jz5Rzc+cYlsYobw5RlhIG18=
+    - secure: j5zON5BZcgWx2u33dNmRrSQeiAByoIxwbGlUKBsNZwpBUBv5nWIqBAEnxytMplD5js59EcbVfjxfSyhHQst3/TsnQsg63Y4Nzjhn5shaupInwiu+dNq2R50MkiYsgAt3fhoQgpg1UYnK7SnNeNqnGm7h+efAKESFul0w+wqtSH0Fx+9HVpvFm5PyfI3jlZXe2t4C1HWzwcDhxhKKV4i9NMOtJyxPpZz/TLz41YF2VjLmaHTu1uEkykZPjRfvIRktRsl9r6huRYc+pFEzvtkpel86CSCtYLsDzxA8l57EB/w5i06Mnj0Z41SnwVEvQs75wYrZ4GLH36RAu0xRWJg6M4zC2VwZ68QGBdspc96gJxBa2BM19SLvEUTG8EfIPjwjyF1Zoons2ECsvQqJTNfq0CPwQH3ghhwv6rVWaWfrpwYsrq9/AjIfc5sRDPf7VPqtTQy4a3rP0kGdR+pICEtwioUvFN5E6tTkJ7yTuuafhNJwQr4mV7zIC/00mlMisGk3zygUJq6w1jxynMyxib1dz9YjqnEAFW5BJfg/1YIhFfaOhXapcLC88WVe9UzCKJI5vRGRKr4G/H/PW/z3ZKHVF55R+IY/zr20sVm5ls5MJbZz8rDW91H49rbx71sebrTxKdDsGVgdYe14Hy/jp6SYNfl3h4TIF+mwFKI/9J19vlA=
+    - secure: IKttjrB+x/qpP7DRz1GaxzFg7vuQUF4PcY+XiJP3Yx2nlvvdcyXPbDMhkcbYhGrBdXR3IQjpD9Uf7YI4tUrfQ164QIlzds0CveA+GT1KgCVqmov6w5HPIdMYk58fgsp0CNl7qUu78Cg+NpuQunp8EIN7cKnFkDNtth+YVCvz6dn9+Va0pYuuWhfn5nCx1arENuWTgd8u5B/7rQvTwa0Uf4Gc4I4f8nRhaNZsDWDOUUscPI2ynUNo5oYlDZhZ1wC4UFXm54GN8x6iofRcZida98JLf/PDG2eAphKPM4zO8vUuufQhe2+bKzOQXqA+3KMo6EbHk2ZE99vi7+7t24bAuMByBxXG+kbM/rBXHCZVQHQjAAJjOVVEqBoUoqmydUfqN772VM5/lSXgXL7/xSD5AtjKYC/NSuFEdEH5ghj8z2FplAUkhFdaYSfRQdfF89pZhJ+6mXAiu22FZi9U5ip5kgXgN48yjO8WeBh23SvrxZYYyplceC/9Cq2B/9dCZy8h0LYZSpdkyhPMBiiR0O9Es7d8cwvcgespRhcYEPLlAKJ/6vxRQhFRIE/LfEdUEMcoffoRUdQv8IX00GAw6G4oucijy2PQfJhQIi+YHypMGmSe3ALfNBaQKsW4LBEjZnPnhfz1qUn8S0y6Z5LXY5x0QOZuUswzXRsMyLb3eeINITk=
 test:
   adapter: mysql2
   database: user_service
   username: travis
   encoding: utf8
+before_install:
+  - echo "Testing Docker Hub credentials"
+  - docker -v
+  - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+  - echo "Docker Hub credentials are working"
+after_success:
+  - export ACTUAL_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "Test Success - Branch($TRAVIS_BRANCH) Actual($ACTUAL_BRANCH) Pull Request($TRAVIS_PULL_REQUEST) Tag($TRAVIS_TAG) Commit($TRAVIS_COMMIT) PR($TRAVIS_PULL_REQUEST) Build($TRAVIS_BUILD_NUMBER)"
+  - if [[ "$ACTUAL_BRANCH" == "master" ]]; then echo -e "Push Container to Docker Hub"; fi
+  - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+  - export REPO=aista/user-service
+  - export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo ""; fi`
+  - docker build -f Dockerfile -t $REPO:$TAG .
+  - docker push $REPO
