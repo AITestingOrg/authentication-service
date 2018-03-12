@@ -1,7 +1,5 @@
 package org.aitesting.microservices.authentication.utils;
 
-
-import org.aitesting.microservices.authentication.utils.*;
 import org.springframework.util.Assert;
 
 public class UserContextHolder {
