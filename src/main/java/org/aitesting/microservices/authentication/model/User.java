@@ -1,20 +1,20 @@
 package org.aitesting.microservices.authentication.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
-	
-	@Id
+    
+    @Id
     @Column(name = "user_id", nullable = false)
     Long userId;
-	
+    
     @Column(name = "username", nullable = false)
     String userName;
 
@@ -26,12 +26,11 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-	public Long getUserId() {
-		return userId;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
