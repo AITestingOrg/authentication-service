@@ -18,6 +18,7 @@ test:
   username: travis
   encoding: utf8
 before_install:
+  - chmod +x gradlew
   - echo "Testing Docker Hub credentials"
   - docker -v
   - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
@@ -31,4 +32,3 @@ after_success:
   - export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo ""; fi`
   - docker build -f Dockerfile -t $REPO:$TAG .
   - docker push $REPO
-  - chmod +x gradlew
