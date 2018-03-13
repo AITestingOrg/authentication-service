@@ -14,6 +14,7 @@ test:
   username: travis
   encoding: utf8
 before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS user_service;'
   - chmod +x gradlew
   - echo "Testing Docker Hub credentials"
   - docker -v
