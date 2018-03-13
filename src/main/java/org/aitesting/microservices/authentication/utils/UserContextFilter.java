@@ -1,7 +1,6 @@
 package org.aitesting.microservices.authentication.utils;
 
-import org.springframework.stereotype.Component;
-
+import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -9,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import org.springframework.stereotype.Component;
 
 @Component
 public class UserContextFilter implements Filter {
@@ -20,8 +19,8 @@ public class UserContextFilter implements Filter {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 
-        System.out.println("****** I am entering the licensing service id with auth token: " + httpServletRequest.getHeader("Authorization"));
-
+        System.out.println("****** I am entering the licensing service id with auth token: "
+                + httpServletRequest.getHeader("Authorization"));
 
         UserContextHolder.getContext().setCorrelationId(httpServletRequest.getHeader(UserContext.CORRELATION_ID));
         UserContextHolder.getContext().setUserId(httpServletRequest.getHeader(UserContext.USER_ID));
