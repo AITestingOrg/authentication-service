@@ -31,3 +31,4 @@ after_success:
   - export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo ""; fi`
   - docker build -f Dockerfile -t $REPO:$TAG .
   - docker push $REPO
+  - chmod +x gradlew
