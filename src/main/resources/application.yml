@@ -6,7 +6,7 @@ spring:
   profiles: development
   
   datasource:
-    url: jdbc:mysql://mysql-server:3306/user_service
+    url: jdbc:mysql://mysqlserver:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -28,14 +28,14 @@ eureka:
 
 server:
   contextPath:   /auth
-  port: 8091
+  port: ${APP_PORT:8080}
 
 ---
 spring:
   profiles: docker
   
   datasource:
-    url: jdbc:mysql://mysql-server:3306/user_service
+    url: jdbc:mysql://mysqlserver:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -57,7 +57,7 @@ eureka:
 
 server:
   contextPath:   /auth
-  port: 8091
+  port: ${APP_PORT:8080}
 
   
 jpa:
