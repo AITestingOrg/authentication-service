@@ -1,9 +1,8 @@
-spring:
-  profiles:
-    active: development
+management.endpoints.web.exposure.include: "*"
+
 ---
 spring:
-  profiles: development
+  profiles: dev
   
   datasource:
     url: jdbc:mysql://mysql-server:3306/user_service
@@ -29,6 +28,13 @@ eureka:
 server:
   contextPath:   /auth
   port: 8091
+  
+security.oauth2.resource.filter-order: 3
+
+axon:
+  cluster-name: ${spring.application.name}
+
+signing.key: “front-end-signing-key”
 
 ---
 spring:
@@ -58,9 +64,51 @@ eureka:
 server:
   contextPath:   /auth
   port: 8091
+  
+security.oauth2.resource.filter-order: 3
 
+axon:
+  cluster-name: ${spring.application.name}
+
+signing.key: “front-end-signing-key”
   
 jpa:
   database: MYSQL
   hibernate:
     ddl-auto: validate
+    
+---
+spring:
+  profiles: local
+  
+  datasource:
+    url: jdbc:mysql://192.168.99.100:3306/user_service
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    org.aitesting.microservices: DEBUG
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+        defaultZone: http://192.168.99.100:8761/eureka/
+
+server:
+  contextPath:   /auth
+  port: 8091
+  
+security.oauth2.resource.filter-order: 3
+
+axon:
+  cluster-name: ${spring.application.name}
+
+signing.key: “front-end-signing-key”

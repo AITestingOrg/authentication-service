@@ -12,14 +12,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class InspectHeaderFilter implements Filter {
+    
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-
-
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         System.out.println("I AM HITTING THE AUTH SERVER: " + httpServletRequest.getHeader("Authorization"));
-
         filterChain.doFilter(httpServletRequest, servletResponse);
     }
 

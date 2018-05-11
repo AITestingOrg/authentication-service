@@ -2,7 +2,8 @@ spring:
   application:
     name: user-service
   profiles:
-    active: development
+    active: dev
   cloud:
     config:
+      uri: http://192.168.99.100:8888
       enabled: true

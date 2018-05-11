@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+
+  discovery-service:
+    image: aista/discovery-service
+    ports:
+      - "8761:8761"
+    container_name: discovery-service
+
+  mysql-server:
+    image: mysql:5.7
+    container_name: mysql-server
+    volumes:
+      - mysql-data:/var/lib/mysql:rw
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'user_service'
+
+volumes:
+  mysql-data:

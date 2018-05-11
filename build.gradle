@@ -1,6 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
+		axonVersion = '3.1.2'
 	}
 	repositories {
 		mavenCentral()
@@ -21,6 +22,9 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+    maven {
+        url 'https://dl.bintray.com/palantir/releases'
+    }
 }
 
 ext {
@@ -43,12 +47,12 @@ dependencies {
     compile('org.springframework.security:spring-security-jwt')
     compile('org.springframework.security:spring-security-rsa')
     
-    compile('com.h2database:h2')
-    compile('postgresql:postgresql:9.1-901.jdbc4')
+    //compile('com.h2database:h2')
+    //compile('postgresql:postgresql:9.1-901.jdbc4')
     compile 'mysql:mysql-connector-java'
     
-	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('com.palantir.docker.compose:docker-compose-rule-junit4:0.33.0')
 }
 
 checkstyle {
