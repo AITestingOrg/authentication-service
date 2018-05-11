@@ -10,7 +10,7 @@ services:
     environment:
       - 'eviction-interval-timer-in-ms: 1000'
 
-  mysql-server1:
+  mysql-server:
     image: mysql:5.7
     container_name: mysql-server
     volumes:
@@ -32,7 +32,7 @@ services:
       - mysql-server
     container_name: user-service
     ports:
-      - '8091:8091'
+      - '8091:8080'
 
 volumes:
    mysql-data:
