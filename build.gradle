@@ -83,7 +83,7 @@ dependencyManagement {
 test {
     testLogging {
         events "failed"
-        exceptionFormat "short"
+        exceptionFormat "full"
     }
 }
 
