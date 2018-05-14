@@ -32,7 +32,7 @@ import com.palantir.docker.compose.connection.waiting.HealthChecks;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = UserServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("dev")
+@ActiveProfiles("local")
 public class UserServiceApplicationTests {
 
     protected static final Logger LOG = LoggerFactory.getLogger(UserServiceApplicationTests.class);
