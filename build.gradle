@@ -80,3 +80,10 @@ dependencyManagement {
 	}
 }
 
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "short"
+    }
+}
+
