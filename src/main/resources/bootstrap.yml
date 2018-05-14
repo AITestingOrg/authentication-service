@@ -1,9 +1,9 @@
 spring:
   application:
-    name: user-service
+    name: userservice
   profiles:
     active: dev
   cloud:
     config:
-      uri: http://192.168.99.100:8888
+      uri: http://${CONFIGURATION_HOST:localhost}:8888
       enabled: true
