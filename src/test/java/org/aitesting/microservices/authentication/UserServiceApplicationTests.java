@@ -2,50 +2,73 @@ package org.aitesting.microservices.authentication;
 
 import static org.junit.Assert.assertTrue;
 
-import com.palantir.docker.compose.DockerComposeRule;
-import com.palantir.docker.compose.connection.waiting.HealthChecks;
-
 import java.util.Base64;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import com.palantir.docker.compose.DockerComposeRule;
+import com.palantir.docker.compose.configuration.ShutdownStrategy;
+import com.palantir.docker.compose.connection.waiting.HealthChecks;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = UserServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("dev")
 public class UserServiceApplicationTests {
 
-    @ClassRule
-    public static DockerComposeRule docker = DockerComposeRule.builder().removeConflictingContainersOnStartup(true)
-            .pullOnStartup(true).file("src/test/resources/docker-compose.yml")
-            .waitingForService("mysql-server", HealthChecks.toHaveAllPortsOpen())
-            .waitingForService("discovery-service", HealthChecks.toHaveAllPortsOpen()).build();
+    protected static final Logger LOG = LoggerFactory.getLogger(UserServiceApplicationTests.class);
 
     @Autowired
-    private JwtTokenStore tokenStore;
+    private TokenStore tokenStore;
 
     private TestRestTemplate restTemplate = new TestRestTemplate();
-
+    private static String userServiceBaseURI = "http://localhost:8080";
     private String tokenValue = "";
 
+    // Username and Password for App front-end
+    final String appUsername = "front-end";
+    final String appPassword = "front-end";
+
+    // Set variables for access token request
+    final String grantTypePassword = "password";
+    final String scopeWeb = "webclient";
+    final String usernamePassenger = "passenger";
+    final String passwordPassenger = "password";
+
+    // Start containers
+    @ClassRule
+    public static DockerComposeRule docker = DockerComposeRule.builder().removeConflictingContainersOnStartup(true)
+            .shutdownStrategy(ShutdownStrategy.GRACEFUL).pullOnStartup(true)
+            .file("src/test/resources/docker-compose.yml")
+            .waitingForService("mysqlserver", HealthChecks.toHaveAllPortsOpen())
+            .waitingForService("discoveryservice", HealthChecks.toHaveAllPortsOpen()).build();
+
+    // Get token
     @Before
     public void setUp() throws JSONException {
-        String plainCreds = "front-end:front-end";
+
+        final String tokenURI = userServiceBaseURI + "/auth/oauth/token";
+
+        String plainCreds = appUsername + ":" + appPassword;
         byte[] plainCredsBytes = plainCreds.getBytes();
         byte[] base64CredsBytes = Base64.getEncoder().encode(plainCredsBytes);
         String base64Creds = new String(base64CredsBytes);
@@ -55,23 +78,24 @@ public class UserServiceApplicationTests {
         headers.add("Content-Type", "application/x-www-form-urlencoded");
 
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("username", "front-end");
-        parameters.add("secret", "front-end");
-        String body = "grant_type=password&scope=webclient&username=user1&password=password";
+        parameters.add("username", appUsername);
+        parameters.add("secret", appPassword);
+        String body = "grant_type=" + grantTypePassword + "&scope=" + scopeWeb + "&username=" + usernamePassenger
+                + "&password=" + passwordPassenger;
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         // Retrieve token
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8091/auth/oauth/token", request,
-                String.class, parameters);
+        ResponseEntity<String> response = restTemplate.postForEntity(tokenURI, request, String.class, parameters);
+        LOG.info("tokenURI: {}", tokenURI);
+        LOG.info("request: {}", request);
+        LOG.info("parameters: {}", parameters);
+        LOG.info("response: {}", response.getBody());
 
         // extract tokenValue from response body
         JSONObject json = new JSONObject(response.getBody());
         tokenValue = json.getString("access_token");
-    }
-
-    @After
-    public void tearDown() {
-        docker.after();
+     
+        LOG.info("tokenValue: {}", tokenValue);
     }
 
     /*
@@ -79,18 +103,42 @@ public class UserServiceApplicationTests {
      */
     @Test
     public void getsTokenSuccess() {
-        OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
-        assertTrue(tokenValue != "");
-        assertTrue(auth != null);
+        assertTrue(!tokenValue.isEmpty());
     }
 
     /*
      * Verify user status is authenticated
      */
     @Test
-    public void tokenUserIsAuthenticatedSuccess() {
-        OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
-        assertTrue(auth.isAuthenticated());
+    public void tokenPassengerIsAuthenticatedSuccess() throws JSONException {
+         OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
+         assertTrue(auth.isAuthenticated());
+    }
+
+    /*
+     * Get User Passenger Info
+     */
+    @Test
+    public void getPassengerInfoSuccess() throws JSONException {
+
+        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+
+        assertTrue(!tokenValue.isEmpty());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + tokenValue);
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<String> httpEntity = new HttpEntity<>("", headers);
+
+        // Retrieve token
+        ResponseEntity<String> response = restTemplate.exchange(tokenUserInfoURI, HttpMethod.GET, httpEntity,
+                String.class);
+
+        // extract tokenValue from response body
+        JSONObject json = new JSONObject(response.getBody());
+        String username = json.getString("user");
+        assertTrue(username.equals(usernamePassenger));
     }
 
 }

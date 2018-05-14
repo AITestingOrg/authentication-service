@@ -51,6 +51,9 @@ dependencies {
     //compile('postgresql:postgresql:9.1-901.jdbc4')
     compile 'mysql:mysql-connector-java'
     
+    testCompile('com.jayway.restassured:rest-assured:2.5.0')
+    testCompile('com.jayway.restassured:spring-mock-mvc:2.5.0')
+    testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('com.palantir.docker.compose:docker-compose-rule-junit4:0.33.0')
 }
