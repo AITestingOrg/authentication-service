@@ -26,7 +26,7 @@ services:
       MYSQL_DATABASE: 'user_service'
       
   userservice:
-    build: ./
+    image: aista/user-service
     depends_on:
       - discoveryservice
       - mysqlserver
