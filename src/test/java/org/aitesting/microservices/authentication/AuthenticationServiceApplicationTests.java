@@ -2,6 +2,10 @@ package org.aitesting.microservices.authentication;
 
 import static org.junit.Assert.assertTrue;
 
+import com.palantir.docker.compose.DockerComposeRule;
+import com.palantir.docker.compose.configuration.ShutdownStrategy;
+import com.palantir.docker.compose.connection.waiting.HealthChecks;
+
 import java.util.Base64;
 
 import org.json.JSONException;
@@ -26,16 +30,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.palantir.docker.compose.DockerComposeRule;
-import com.palantir.docker.compose.configuration.ShutdownStrategy;
-import com.palantir.docker.compose.connection.waiting.HealthChecks;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = UserServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("local")
-public class UserServiceApplicationTests {
+@SpringBootTest(classes = AuthenticationServiceApplication.class,
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
+public class AuthenticationServiceApplicationTests {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(UserServiceApplicationTests.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceApplicationTests.class);
 
     @Autowired
     private TokenStore tokenStore;
@@ -94,7 +95,7 @@ public class UserServiceApplicationTests {
         // extract tokenValue from response body
         JSONObject json = new JSONObject(response.getBody());
         tokenValue = json.getString("access_token");
-     
+
         LOG.info("tokenValue: {}", tokenValue);
     }
 
@@ -111,8 +112,8 @@ public class UserServiceApplicationTests {
      */
     @Test
     public void tokenPassengerIsAuthenticatedSuccess() throws JSONException {
-         OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
-         assertTrue(auth.isAuthenticated());
+        OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
+        assertTrue(auth.isAuthenticated());
     }
 
     /*

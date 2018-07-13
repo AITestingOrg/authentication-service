@@ -2,18 +2,24 @@ buildscript {
 	ext {
 		springBootVersion = '1.5.10.RELEASE'
 		axonVersion = '3.1.2'
+		springfoxVersion = '2.7.0'
 	}
 	repositories {
 		mavenCentral()
+		maven {
+		  url 'https://repo.spring.io/libs-release'
+		}
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE')
 	}
 }
+
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
 apply plugin: 'checkstyle'
 
 group = 'org.aitesting.microservices'
@@ -48,16 +54,54 @@ dependencies {
     compile('org.springframework.security:spring-security-jwt')
     compile('org.springframework.security:spring-security-rsa')
     
-    //compile('com.h2database:h2')
-    //compile('postgresql:postgresql:9.1-901.jdbc4')
-    compile 'mysql:mysql-connector-java'
+	compile("io.springfox:springfox-swagger2:${springfoxVersion}")
+	compile("io.springfox:springfox-swagger-ui:${springfoxVersion}")
+    compile('mysql:mysql-connector-java')
     
     testCompile('com.jayway.restassured:rest-assured:2.5.0')
     testCompile('com.jayway.restassured:spring-mock-mvc:2.5.0')
-    testCompile('org.springframework.cloud:spring-cloud-starter-contract-stub-runner')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('com.palantir.docker.compose:docker-compose-rule-junit4:0.33.0')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+
+	testCompile('org.mockito:mockito-core:2.8.9')
 }
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Edgware.SR2'
+	}
+}
+
+test {
+    testLogging {
+        events "failed"
+        exceptionFormat "full"
+    }
+}
+
+jacocoTestReport {
+	reports {
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+}
+
+jacocoTestCoverageVerification {
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: "${project.buildDir}/classes/main",
+					exclude: ['**/service/services/ApiService*'])
+		})
+	}
+	violationRules {
+		rule {
+			limit {
+				minimum = 0.85
+			}
+		}
+	}
+}
+test.finalizedBy(jacocoTestCoverageVerification)
 
 checkstyle {
 	toolVersion = "8.7"
@@ -73,18 +117,5 @@ checkstyleTest {
 	source = fileTree('src/test') {
 		excludes = ['*.yml']
 	}
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
-
-test {
-    testLogging {
-        events "failed"
-        exceptionFormat "full"
-    }
 }
 

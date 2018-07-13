@@ -33,7 +33,8 @@ public class OAuth2Config extends AuthorizationServerConfigurerAdapter {
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory().withClient("front-end").secret("front-end")
                 .authorizedGrantTypes("refresh_token", "password", "client_credentials")
-                .scopes("webclient", "mobileclient").and().withClient("eagle-eye").secret("thiissecret")
+                .scopes("webclient", "mobileclient")
+                .and().withClient("eagle-eye").secret("thiissecret")
                 .authorizedGrantTypes("refresh_token", "password", "client_credentials")
                 .scopes("webclient", "mobileclient");
     }
