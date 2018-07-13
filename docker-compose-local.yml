@@ -3,7 +3,7 @@ version: '3'
 services:
 
   discovery-service:
-    build: ../discovery-service
+    image: aista/discovery-service
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -25,17 +25,14 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: 'user_service'
       
-  # userservice:
-   # build: ./
-   # depends_on:
-     # - discovery-service
-     # - mysqlserver
-   # container_name: userservice
-   # ports:
-     # - '8091:8080'
-   # environment:
-     # - 'DOCKER_MACHINE_IP:192.168.99.100'
-     # - 'APP_PORT:8080'
+  userservice:
+    build: ./
+    container_name: userservice
+    depends_on:
+      - discovery-service
+      - mysqlserver
+    ports:
+      - '8091:8080'
 
 volumes:
    mysql-data:
