@@ -3,7 +3,7 @@ version: '3'
 services:
 
   discoveryservice:
-    image: aista/discovery-service
+    image: aista/eureka
     ports:
       - "8761:8761"
     container_name: discoveryservice

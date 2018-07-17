@@ -3,6 +3,8 @@ management.endpoints.web.exposure.include: "*"
 ---
 spring:
   profiles: dev
+  mvc:
+    dispatch-options-request: true
   
   datasource:
     url: jdbc:mysql://${DOCKER_MACHINE_IP:mysqlserver}:3306/user_service
@@ -59,7 +61,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://discoveryservice:8761/eureka/
+        defaultZone: http://discovery-service:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -79,7 +81,7 @@ jpa:
     
 ---
 spring:
-  profiles: local
+  profiles: test
   
   datasource:
     url: jdbc:mysql://${DOCKER_MACHINE_IP:localhost}:3306/user_service
