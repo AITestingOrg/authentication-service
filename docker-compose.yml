@@ -33,6 +33,9 @@ services:
       - mysqlserver
     ports:
       - '8091:8080'
+    environment:
+      - RABBIT_HOST=rabbitmq
+
 
   rabbitmq:
     image: rabbitmq:management
