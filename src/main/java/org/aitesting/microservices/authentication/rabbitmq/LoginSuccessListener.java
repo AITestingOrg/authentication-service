@@ -3,6 +3,8 @@ package org.aitesting.microservices.authentication.rabbitmq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -18,7 +20,7 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent evt) {
-        if (evt.getAuthentication().getPrincipal() instanceof User) {
+        if (evt.getSource() instanceof UsernamePasswordAuthenticationToken) {
             User user = (User) evt.getAuthentication().getPrincipal();
             log.info(String.format("User %s logged in", user.getUsername()));
             producer.send(String.format("{\"userId\":\"%s\"}", user.getUsername()));
