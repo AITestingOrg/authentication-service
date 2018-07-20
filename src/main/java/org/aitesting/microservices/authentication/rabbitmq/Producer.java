@@ -20,6 +20,6 @@ public class Producer {
 
     public void send(String message) {
         log.info(String.format("Sending message %s to %s", message, topicExchange.getName()));
-        this.rabbitTemplate.convertAndSend(topicExchange.getName(), "a", message);
+        this.rabbitTemplate.convertAndSend(topicExchange.getName(), "notification.user.authentication", message);
     }
 }

@@ -23,9 +23,6 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
       MYSQL_DATABASE: 'user_service'
 
-#   environment:
-#        - RABBIT_HOST=rabbitmq
-
   rabbitmq:
     image: rabbitmq:management
     ports:

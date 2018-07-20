@@ -18,8 +18,10 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
 
     @Override
     public void onApplicationEvent(AuthenticationSuccessEvent evt) {
-        User user = (User) evt.getAuthentication().getPrincipal();
-        log.info(String.format("User %s logged in", user.getUsername()));
-        producer.send(String.format("{\"userId\":\"%s\"}", user.getUsername()));
+        if (evt.getAuthentication().getPrincipal() instanceof User) {
+            User user = (User) evt.getAuthentication().getPrincipal();
+            log.info(String.format("User %s logged in", user.getUsername()));
+            producer.send(String.format("{\"userId\":\"%s\"}", user.getUsername()));
+        }
     }
 }
