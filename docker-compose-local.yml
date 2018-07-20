@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-
+  
   discoveryservice:
     image: aista/eureka
     container_name: discoveryservice
@@ -27,10 +27,10 @@ services:
       
   userservice:
     build: ./
+    container_name: userservice
     depends_on:
       - discoveryservice
       - mysqlserver
-    container_name: userservice
     ports:
       - '8091:8080'
     environment:
@@ -45,5 +45,5 @@ services:
       - "15672:15672"
 
 volumes:
-   mysql-data:
+  mysql-data:
    

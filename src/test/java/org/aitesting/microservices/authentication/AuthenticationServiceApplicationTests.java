@@ -2,8 +2,17 @@ package org.aitesting.microservices.authentication;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Base64;
+import com.palantir.docker.compose.DockerComposeRule;
+import com.palantir.docker.compose.configuration.ShutdownStrategy;
+import com.palantir.docker.compose.connection.waiting.HealthChecks;
 
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.aitesting.microservices.authentication.model.User;
+import org.aitesting.microservices.authentication.model.UserOrganization;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -26,16 +35,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.palantir.docker.compose.DockerComposeRule;
-import com.palantir.docker.compose.configuration.ShutdownStrategy;
-import com.palantir.docker.compose.connection.waiting.HealthChecks;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = UserServiceApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("local")
-public class UserServiceApplicationTests {
+@SpringBootTest(classes = AuthenticationServiceApplication.class,
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
+public class AuthenticationServiceApplicationTests {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(UserServiceApplicationTests.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceApplicationTests.class);
 
     @Autowired
     private TokenStore tokenStore;
@@ -59,8 +65,7 @@ public class UserServiceApplicationTests {
     public static DockerComposeRule docker = DockerComposeRule.builder().removeConflictingContainersOnStartup(true)
             .shutdownStrategy(ShutdownStrategy.GRACEFUL).pullOnStartup(true)
             .file("src/test/resources/docker-compose.yml")
-            .waitingForService("mysqlserver", HealthChecks.toHaveAllPortsOpen())
-            .waitingForService("discoveryservice", HealthChecks.toHaveAllPortsOpen()).build();
+            .waitingForService("mysqlserver", HealthChecks.toHaveAllPortsOpen()).build();
 
     // Get token
     @Before
@@ -94,7 +99,7 @@ public class UserServiceApplicationTests {
         // extract tokenValue from response body
         JSONObject json = new JSONObject(response.getBody());
         tokenValue = json.getString("access_token");
-     
+
         LOG.info("tokenValue: {}", tokenValue);
     }
 
@@ -111,8 +116,8 @@ public class UserServiceApplicationTests {
      */
     @Test
     public void tokenPassengerIsAuthenticatedSuccess() throws JSONException {
-         OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
-         assertTrue(auth.isAuthenticated());
+        OAuth2Authentication auth = tokenStore.readAuthentication(tokenValue);
+        assertTrue(auth.isAuthenticated());
     }
 
     /*
@@ -139,6 +144,86 @@ public class UserServiceApplicationTests {
         JSONObject json = new JSONObject(response.getBody());
         String username = json.getString("user");
         assertTrue(username.equals(usernamePassenger));
+    }
+
+    @Test
+    public void getUserObject() throws Exception {
+
+        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+
+        assertTrue(!tokenValue.isEmpty());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + tokenValue);
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<String> httpEntity = new HttpEntity<>("", headers);
+
+        // Retrieve token
+        ResponseEntity<String> response = restTemplate.exchange(tokenUserInfoURI, HttpMethod.GET, httpEntity,
+                String.class);
+
+        // extract tokenValue from response body
+        JSONObject json = new JSONObject(response.getBody());
+        String username = json.getString("user");
+        User user = new User();
+        user.setUsername(username);
+        assertTrue(user.getUsername().equals(username));
+    }
+
+    @Test
+    public void getUserOrganizationObject() throws Exception {
+
+        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+
+        assertTrue(!tokenValue.isEmpty());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + tokenValue);
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<String> httpEntity = new HttpEntity<>("", headers);
+
+        // Retrieve token
+        ResponseEntity<String> response = restTemplate.exchange(tokenUserInfoURI, HttpMethod.GET, httpEntity,
+                String.class);
+
+        // extract tokenValue from response body
+        JSONObject json = new JSONObject(response.getBody());
+        String username = json.getString("user");
+        UserOrganization userOrganization = new UserOrganization();
+        userOrganization.setUsername(username);
+        assertTrue(userOrganization.getUsername().equals(username));
+    }
+
+    @Test
+    public void getAuthorities() throws Exception {
+
+        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+
+        assertTrue(!tokenValue.isEmpty());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + tokenValue);
+        headers.add("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpEntity<String> httpEntity = new HttpEntity<>("", headers);
+
+        // Retrieve token
+        ResponseEntity<String> response = restTemplate.exchange(tokenUserInfoURI, HttpMethod.GET, httpEntity,
+                String.class);
+
+        // extract tokenValue from response body
+        JSONObject json = new JSONObject(response.getBody());
+        JSONArray jsonArray = json.getJSONArray("authorities");
+        List<String> authorities = new ArrayList<>();
+        if (jsonArray != null) {
+            int len = jsonArray.length();
+            for (int i = 0; i < len; i++) {
+                authorities.add(jsonArray.get(i).toString());
+            }
+        }
+        assertTrue(authorities.size() > 0);
     }
 
 }
