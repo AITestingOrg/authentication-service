@@ -28,7 +28,7 @@ Once Docker is installed you can build from source or use the predefined images 
 ### Building from source
 Using gradle wrapper and docker-compose:
 ```sh
-cd user-service
+cd authentication-service
 ./gradlew clean build
 docker-compose -f docker-compose-local.yml up --build
 ```

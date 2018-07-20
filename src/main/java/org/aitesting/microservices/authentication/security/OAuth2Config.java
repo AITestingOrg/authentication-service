@@ -2,8 +2,6 @@ package org.aitesting.microservices.authentication.security;
 
 import javax.sql.DataSource;
 
-//import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

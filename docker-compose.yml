@@ -26,13 +26,19 @@ services:
       MYSQL_DATABASE: 'user_service'
       
   userservice:
-    image: aista/user-service
+    build: ./
     depends_on:
       - discoveryservice
       - mysqlserver
     container_name: userservice
     ports:
       - '8091:8080'
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
 volumes:
    mysql-data:
