@@ -117,9 +117,9 @@ INSERT INTO user_role (user_id, role_id) VALUES ('123e4567-e89b-12d3-a456-426655
 INSERT INTO user_role (user_id, role_id) VALUES ('223e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440004');
 INSERT INTO user_role (user_id, role_id) VALUES ('323e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440001');
 
---INSERT INTO permision (permission_id, description) VALUES (, '');
+--INSERT INTO permission (permission_id, description) VALUES (, '');
 
---INSERT INTO role_permision (role_id, permission_id) VALUES (, );
+--INSERT INTO role_permission (role_id, permission_id) VALUES (, );
 
 --INSERT INTO activity (activity_id, url, method, url_regex) VALUES (, '', '', '');
 

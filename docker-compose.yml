@@ -36,6 +36,16 @@ services:
     environment:
       - RABBIT_HOST=rabbitmq
 
+  notificationservice:
+    image: aista/notification-service
+    container_name: notificationservice
+    depends_on:
+      - rabbitmq
+    ports:
+      - '32700:32700'
+    environment:
+      - RABBIT_HOST=rabbitmq
+      - EUREKA_SERVER=discoveryservice
 
   rabbitmq:
     image: rabbitmq:management
