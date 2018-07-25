@@ -22,7 +22,9 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,34 +33,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = AuthenticationServiceApplication.class,
-    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = AuthenticationServiceApplication.class, webEnvironment = WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class AuthenticationServiceApplicationTests {
 
-    protected static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceApplicationTests.class);
+    protected final Logger log = LoggerFactory.getLogger(AuthenticationServiceApplicationTests.class);
 
     @Autowired
     private TokenStore tokenStore;
 
+    @LocalServerPort
+    private int port;
+
     private TestRestTemplate restTemplate = new TestRestTemplate();
-    private static String userServiceBaseURI = "http://localhost:8080";
     private String tokenValue = "";
+    private final String hostUrl = "http://localhost";
 
     // Username and Password for App front-end
-    final String appUsername = "front-end";
-    final String appPassword = "front-end";
+    private final String appUsername = "front-end";
+    private final String appPassword = "front-end";
 
     // Set variables for access token request
-    final String grantTypePassword = "password";
-    final String scopeWeb = "webclient";
-    final String usernamePassenger = "passenger";
-    final String passwordPassenger = "password";
+    private final String grantTypePassword = "password";
+    private final String scopeWeb = "webclient";
+    private final String usernamePassenger = "passenger";
+    private final String passwordPassenger = "password";
 
     // Start containers
     @ClassRule
@@ -71,7 +75,7 @@ public class AuthenticationServiceApplicationTests {
     @Before
     public void setUp() throws JSONException {
 
-        final String tokenURI = userServiceBaseURI + "/auth/oauth/token";
+        final String tokenURI = createURLWithPort("/auth/oauth/token");
 
         String plainCreds = appUsername + ":" + appPassword;
         byte[] plainCredsBytes = plainCreds.getBytes();
@@ -90,17 +94,20 @@ public class AuthenticationServiceApplicationTests {
         HttpEntity<String> request = new HttpEntity<>(body, headers);
 
         // Retrieve token
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenURI, request, String.class, parameters);
-        LOG.info("tokenURI: {}", tokenURI);
-        LOG.info("request: {}", request);
-        LOG.info("parameters: {}", parameters);
-        LOG.info("response: {}", response.getBody());
+        log.info("RestTemplate: {}", restTemplate);
+        log.info("Port: {}", port);
+        ResponseEntity<String> response = restTemplate.exchange(tokenURI, HttpMethod.POST, request, String.class,
+                parameters);
+        log.info("tokenURI: {}", tokenURI);
+        log.info("request: {}", request);
+        log.info("parameters: {}", parameters);
+        log.info("response: {}", response.getBody());
 
         // extract tokenValue from response body
         JSONObject json = new JSONObject(response.getBody());
         tokenValue = json.getString("access_token");
-
-        LOG.info("tokenValue: {}", tokenValue);
+        log.info(response.getBody());
+        log.info("tokenValue: {}", tokenValue);
     }
 
     /*
@@ -126,7 +133,7 @@ public class AuthenticationServiceApplicationTests {
     @Test
     public void getPassengerInfoSuccess() throws JSONException {
 
-        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+        final String tokenUserInfoURI = createURLWithPort("/auth/user");
 
         assertTrue(!tokenValue.isEmpty());
 
@@ -149,7 +156,7 @@ public class AuthenticationServiceApplicationTests {
     @Test
     public void getUserObject() throws Exception {
 
-        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+        final String tokenUserInfoURI = createURLWithPort("/auth/user");
 
         assertTrue(!tokenValue.isEmpty());
 
@@ -166,15 +173,18 @@ public class AuthenticationServiceApplicationTests {
         // extract tokenValue from response body
         JSONObject json = new JSONObject(response.getBody());
         String username = json.getString("user");
+        String password = "password";
         User user = new User();
         user.setUsername(username);
+        user.setPassword(password);
         assertTrue(user.getUsername().equals(username));
+        assertTrue(user.getPassword().equals(password));
     }
 
     @Test
     public void getUserOrganizationObject() throws Exception {
 
-        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+        final String tokenUserInfoURI = createURLWithPort("/auth/user");
 
         assertTrue(!tokenValue.isEmpty());
 
@@ -199,7 +209,7 @@ public class AuthenticationServiceApplicationTests {
     @Test
     public void getAuthorities() throws Exception {
 
-        final String tokenUserInfoURI = userServiceBaseURI + "/auth/user";
+        final String tokenUserInfoURI = createURLWithPort("/auth/user");
 
         assertTrue(!tokenValue.isEmpty());
 
@@ -224,6 +234,10 @@ public class AuthenticationServiceApplicationTests {
             }
         }
         assertTrue(authorities.size() > 0);
+    }
+
+    private String createURLWithPort(String uri) {
+        return hostUrl + ":" + port + uri;
     }
 
 }

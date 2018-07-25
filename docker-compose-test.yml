@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  
+  discoveryservice:
+    image: aista/eureka
+    container_name: discoveryservice
+    ports:
+      - "8761:8761"
+    environment:
+      - 'eviction-interval-timer-in-ms: 1000'
+
+  mysqlserver:
+    image: mysql:5.7
+    container_name: mysqlserver
+    volumes:
+      - mysql-data:/var/lib/mysql:rw
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_USER:
+      MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: 'user_service'
+
+  notificationservice:
+    image: aista/notification-service
+    container_name: notificationservice
+    depends_on:
+      - rabbitmq
+    ports:
+      - '32700:32700'
+    environment:
+      - RABBIT_HOST=rabbitmq
+      - EUREKA_SERVER=discoveryservice
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  mysql-data:
+   

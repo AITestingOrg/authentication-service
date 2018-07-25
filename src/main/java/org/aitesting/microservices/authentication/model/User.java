@@ -8,13 +8,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * 
+ * @author jsoto128@fiu.edu
+ * 
+ * User Entity extended from org.springframework.security.core.userdetails.User
+ *
+ */
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -29,6 +33,8 @@ public class User implements Serializable {
 
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
+
+    public User() {}
 
     public UUID getUserId() {
         return userId;

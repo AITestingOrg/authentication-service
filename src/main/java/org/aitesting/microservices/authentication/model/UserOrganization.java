@@ -1,6 +1,7 @@
 package org.aitesting.microservices.authentication.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ public class UserOrganization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Column(name = "organization_id", nullable = false)
-    String organizationId;
+    UUID organizationId;
 
     @Id
     @Column(name = "username", nullable = false)
@@ -31,11 +32,11 @@ public class UserOrganization implements Serializable {
         this.username = username;
     }
 
-    public String getOrganizationId() {
+    public UUID getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(String organizationId) {
+    public void setOrganizationId(UUID organizationId) {
         this.organizationId = organizationId;
     }
 
