@@ -102,20 +102,20 @@ CREATE TABLE IF NOT EXISTS oauth_code (
   authentication BLOB
 );
 
-INSERT INTO user (user_id, username, password, enabled) VALUES ('123e4567-e89b-12d3-a456-426655440000', 'passenger','password', true);
-INSERT INTO user (user_id, username, password, enabled) VALUES ('223e4567-e89b-12d3-a456-426655440000', 'driver','password', true);
-INSERT INTO user (user_id, username, password, enabled) VALUES ('323e4567-e89b-12d3-a456-426655440000', 'admin','password', true);
+INSERT INTO user (user_id, username, password, enabled) VALUES ('4eaf29bc-3909-49d4-a104-3d17f68ba672', 'passenger','password', true);
+INSERT INTO user (user_id, username, password, enabled) VALUES ('6ed6e72c-10ae-4908-ae74-f7e77d6dc18b', 'driver','password', true);
+INSERT INTO user (user_id, username, password, enabled) VALUES ('35dd0d23-6a4f-474e-9246-461538456909', 'admin','password', true);
 
-INSERT INTO role (role_id, description) VALUES ('123e4567-e89b-12d3-a456-426655440001', 'ROLE_ADMIN');
-INSERT INTO role (role_id, description) VALUES ('123e4567-e89b-12d3-a456-426655440002', 'ROLE_USER');
-INSERT INTO role (role_id, description) VALUES ('123e4567-e89b-12d3-a456-426655440003', 'ROLE_PASSENGER');
-INSERT INTO role (role_id, description) VALUES ('123e4567-e89b-12d3-a456-426655440004', 'ROLE_DRIVER');
+INSERT INTO role (role_id, description) VALUES ('429dabde-b407-42b8-b4a4-ad46874fb9ae', 'ROLE_ADMIN');
+INSERT INTO role (role_id, description) VALUES ('3c77eaee-c60b-417b-92f3-d7503548b02b', 'ROLE_USER');
+INSERT INTO role (role_id, description) VALUES ('2b992093-cb98-472b-b53b-eaca27f9133d', 'ROLE_PASSENGER');
+INSERT INTO role (role_id, description) VALUES ('e723842b-9dfb-4f3e-9967-37d10642028f', 'ROLE_DRIVER');
 
-INSERT INTO user_role (user_id, role_id) VALUES ('123e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440002');
-INSERT INTO user_role (user_id, role_id) VALUES ('223e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440002');
-INSERT INTO user_role (user_id, role_id) VALUES ('123e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440003');
-INSERT INTO user_role (user_id, role_id) VALUES ('223e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440004');
-INSERT INTO user_role (user_id, role_id) VALUES ('323e4567-e89b-12d3-a456-426655440000', '123e4567-e89b-12d3-a456-426655440001');
+INSERT INTO user_role (user_id, role_id) VALUES ('4eaf29bc-3909-49d4-a104-3d17f68ba672', '3c77eaee-c60b-417b-92f3-d7503548b02b');
+INSERT INTO user_role (user_id, role_id) VALUES ('6ed6e72c-10ae-4908-ae74-f7e77d6dc18b', '3c77eaee-c60b-417b-92f3-d7503548b02b');
+INSERT INTO user_role (user_id, role_id) VALUES ('4eaf29bc-3909-49d4-a104-3d17f68ba672', '2b992093-cb98-472b-b53b-eaca27f9133d');
+INSERT INTO user_role (user_id, role_id) VALUES ('6ed6e72c-10ae-4908-ae74-f7e77d6dc18b', 'e723842b-9dfb-4f3e-9967-37d10642028f');
+INSERT INTO user_role (user_id, role_id) VALUES ('35dd0d23-6a4f-474e-9246-461538456909', '429dabde-b407-42b8-b4a4-ad46874fb9ae');
 
 --INSERT INTO permission (permission_id, description) VALUES (, '');
 
@@ -125,7 +125,7 @@ INSERT INTO user_role (user_id, role_id) VALUES ('323e4567-e89b-12d3-a456-426655
 
 --INSERT INTO permission_activity (permission_id, activity_id) VALUES (, );
 
-INSERT INTO user_orgs (organization_id, username) VALUES ('d1859f1f-4bd7-4593-8654-ea6d9a6a626e', 'passenger');
-INSERT INTO user_orgs (organization_id, username) VALUES ('42d3d4f5-9f33-42f4-8aca-b7519d6af1bb', 'driver');
+INSERT INTO user_orgs (organization_id, username) VALUES ('93f12c23-8efb-4365-b923-b3ce5b466b6d', 'passenger');
+INSERT INTO user_orgs (organization_id, username) VALUES ('93f12c23-8efb-4365-b923-b3ce5b466b6d', 'driver');
 
 
