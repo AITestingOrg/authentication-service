@@ -5,14 +5,16 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 /**
  * 
  * @author jsoto128@fiu.edu
- * 
- * User Entity extended from org.springframework.security.core.userdetails.User
  *
  */
 @Entity
@@ -22,7 +24,10 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "user_id", nullable = false)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "user_id", nullable = false, columnDefinition = "VARCHAR(36)")
+    @Type(type = "uuid-char")
     private UUID userId;
 
     @Column(name = "username", nullable = false)
@@ -34,7 +39,8 @@ public class User implements Serializable {
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
-    public User() {}
+    public User() {
+    }
 
     public UUID getUserId() {
         return userId;

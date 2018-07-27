@@ -28,7 +28,11 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
             UserDetails userDetails = (UserDetails) evt.getAuthentication().getPrincipal();
             User user = userRepository.findByUsername(userDetails.getUsername());
             log.info(String.format("User %s logged in", user.getUserId()));
-            producer.send(String.format("{\"userId\":\"%s\"}", user.getUserId()));
+            try {
+                producer.send(String.format("{\"userId\":\"%s\"}", user.getUserId()));
+            } catch (Exception e) {
+                log.error("Message not sent to Notification Service");
+            }
         }
     }
 }
