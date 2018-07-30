@@ -40,9 +40,10 @@ ext {
 
 dependencies {
 
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-amqp')
     
     compile('org.springframework.cloud:spring-cloud-starter-config')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
@@ -54,17 +55,16 @@ dependencies {
     compile('org.springframework.security:spring-security-jwt')
     compile('org.springframework.security:spring-security-rsa')
     
-	compile("io.springfox:springfox-swagger2:${springfoxVersion}")
-	compile("io.springfox:springfox-swagger-ui:${springfoxVersion}")
+    compile("io.springfox:springfox-swagger2:${springfoxVersion}")
+    compile("io.springfox:springfox-swagger-ui:${springfoxVersion}")
     compile('mysql:mysql-connector-java')
     
     testCompile('com.jayway.restassured:rest-assured:2.5.0')
     testCompile('com.jayway.restassured:spring-mock-mvc:2.5.0')
     testCompile('com.palantir.docker.compose:docker-compose-rule-junit4:0.33.0')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile group: 'junit', name: 'junit', version: '4.12'
-
-	testCompile('org.mockito:mockito-core:2.8.9')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile('org.mockito:mockito-core:2.8.9')
 }
 
 dependencyManagement {

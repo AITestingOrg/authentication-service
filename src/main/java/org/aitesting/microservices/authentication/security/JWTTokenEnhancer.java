@@ -2,6 +2,7 @@ package org.aitesting.microservices.authentication.security;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.aitesting.microservices.authentication.model.UserOrganization;
 import org.aitesting.microservices.authentication.repository.OrgUserRepository;
@@ -16,7 +17,7 @@ public class JWTTokenEnhancer implements TokenEnhancer {
     @Autowired
     private OrgUserRepository orgUserRepo;
 
-    private String getOrgId(String username) {
+    private UUID getOrgId(String username) {
         UserOrganization orgUser = orgUserRepo.findByUsername(username);
         return orgUser.getOrganizationId();
     }
@@ -24,7 +25,7 @@ public class JWTTokenEnhancer implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInfo = new HashMap<>();
-        String orgId = getOrgId(authentication.getName());
+        UUID orgId = getOrgId(authentication.getName());
         additionalInfo.put("organizationId", orgId);
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
