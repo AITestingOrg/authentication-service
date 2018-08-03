@@ -1,37 +1,40 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 sudo: required
 services:
-  - docker
+- docker
 before_script:
-  - sudo service mysql stop
+- sudo service mysql stop
 env:
   global:
-    - secure: j5zON5BZcgWx2u33dNmRrSQeiAByoIxwbGlUKBsNZwpBUBv5nWIqBAEnxytMplD5js59EcbVfjxfSyhHQst3/TsnQsg63Y4Nzjhn5shaupInwiu+dNq2R50MkiYsgAt3fhoQgpg1UYnK7SnNeNqnGm7h+efAKESFul0w+wqtSH0Fx+9HVpvFm5PyfI3jlZXe2t4C1HWzwcDhxhKKV4i9NMOtJyxPpZz/TLz41YF2VjLmaHTu1uEkykZPjRfvIRktRsl9r6huRYc+pFEzvtkpel86CSCtYLsDzxA8l57EB/w5i06Mnj0Z41SnwVEvQs75wYrZ4GLH36RAu0xRWJg6M4zC2VwZ68QGBdspc96gJxBa2BM19SLvEUTG8EfIPjwjyF1Zoons2ECsvQqJTNfq0CPwQH3ghhwv6rVWaWfrpwYsrq9/AjIfc5sRDPf7VPqtTQy4a3rP0kGdR+pICEtwioUvFN5E6tTkJ7yTuuafhNJwQr4mV7zIC/00mlMisGk3zygUJq6w1jxynMyxib1dz9YjqnEAFW5BJfg/1YIhFfaOhXapcLC88WVe9UzCKJI5vRGRKr4G/H/PW/z3ZKHVF55R+IY/zr20sVm5ls5MJbZz8rDW91H49rbx71sebrTxKdDsGVgdYe14Hy/jp6SYNfl3h4TIF+mwFKI/9J19vlA=
-    - secure: IKttjrB+x/qpP7DRz1GaxzFg7vuQUF4PcY+XiJP3Yx2nlvvdcyXPbDMhkcbYhGrBdXR3IQjpD9Uf7YI4tUrfQ164QIlzds0CveA+GT1KgCVqmov6w5HPIdMYk58fgsp0CNl7qUu78Cg+NpuQunp8EIN7cKnFkDNtth+YVCvz6dn9+Va0pYuuWhfn5nCx1arENuWTgd8u5B/7rQvTwa0Uf4Gc4I4f8nRhaNZsDWDOUUscPI2ynUNo5oYlDZhZ1wC4UFXm54GN8x6iofRcZida98JLf/PDG2eAphKPM4zO8vUuufQhe2+bKzOQXqA+3KMo6EbHk2ZE99vi7+7t24bAuMByBxXG+kbM/rBXHCZVQHQjAAJjOVVEqBoUoqmydUfqN772VM5/lSXgXL7/xSD5AtjKYC/NSuFEdEH5ghj8z2FplAUkhFdaYSfRQdfF89pZhJ+6mXAiu22FZi9U5ip5kgXgN48yjO8WeBh23SvrxZYYyplceC/9Cq2B/9dCZy8h0LYZSpdkyhPMBiiR0O9Es7d8cwvcgespRhcYEPLlAKJ/6vxRQhFRIE/LfEdUEMcoffoRUdQv8IX00GAw6G4oucijy2PQfJhQIi+YHypMGmSe3ALfNBaQKsW4LBEjZnPnhfz1qUn8S0y6Z5LXY5x0QOZuUswzXRsMyLb3eeINITk=
+  - secure: j5zON5BZcgWx2u33dNmRrSQeiAByoIxwbGlUKBsNZwpBUBv5nWIqBAEnxytMplD5js59EcbVfjxfSyhHQst3/TsnQsg63Y4Nzjhn5shaupInwiu+dNq2R50MkiYsgAt3fhoQgpg1UYnK7SnNeNqnGm7h+efAKESFul0w+wqtSH0Fx+9HVpvFm5PyfI3jlZXe2t4C1HWzwcDhxhKKV4i9NMOtJyxPpZz/TLz41YF2VjLmaHTu1uEkykZPjRfvIRktRsl9r6huRYc+pFEzvtkpel86CSCtYLsDzxA8l57EB/w5i06Mnj0Z41SnwVEvQs75wYrZ4GLH36RAu0xRWJg6M4zC2VwZ68QGBdspc96gJxBa2BM19SLvEUTG8EfIPjwjyF1Zoons2ECsvQqJTNfq0CPwQH3ghhwv6rVWaWfrpwYsrq9/AjIfc5sRDPf7VPqtTQy4a3rP0kGdR+pICEtwioUvFN5E6tTkJ7yTuuafhNJwQr4mV7zIC/00mlMisGk3zygUJq6w1jxynMyxib1dz9YjqnEAFW5BJfg/1YIhFfaOhXapcLC88WVe9UzCKJI5vRGRKr4G/H/PW/z3ZKHVF55R+IY/zr20sVm5ls5MJbZz8rDW91H49rbx71sebrTxKdDsGVgdYe14Hy/jp6SYNfl3h4TIF+mwFKI/9J19vlA=
+  - secure: IKttjrB+x/qpP7DRz1GaxzFg7vuQUF4PcY+XiJP3Yx2nlvvdcyXPbDMhkcbYhGrBdXR3IQjpD9Uf7YI4tUrfQ164QIlzds0CveA+GT1KgCVqmov6w5HPIdMYk58fgsp0CNl7qUu78Cg+NpuQunp8EIN7cKnFkDNtth+YVCvz6dn9+Va0pYuuWhfn5nCx1arENuWTgd8u5B/7rQvTwa0Uf4Gc4I4f8nRhaNZsDWDOUUscPI2ynUNo5oYlDZhZ1wC4UFXm54GN8x6iofRcZida98JLf/PDG2eAphKPM4zO8vUuufQhe2+bKzOQXqA+3KMo6EbHk2ZE99vi7+7t24bAuMByBxXG+kbM/rBXHCZVQHQjAAJjOVVEqBoUoqmydUfqN772VM5/lSXgXL7/xSD5AtjKYC/NSuFEdEH5ghj8z2FplAUkhFdaYSfRQdfF89pZhJ+6mXAiu22FZi9U5ip5kgXgN48yjO8WeBh23SvrxZYYyplceC/9Cq2B/9dCZy8h0LYZSpdkyhPMBiiR0O9Es7d8cwvcgespRhcYEPLlAKJ/6vxRQhFRIE/LfEdUEMcoffoRUdQv8IX00GAw6G4oucijy2PQfJhQIi+YHypMGmSe3ALfNBaQKsW4LBEjZnPnhfz1qUn8S0y6Z5LXY5x0QOZuUswzXRsMyLb3eeINITk=
 test:
   username: travis
   encoding: utf8
 before_install:
-  - chmod +x gradlew
-  - echo "Testing Docker Hub credentials"
-  - docker -v
-  - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
-  - echo "Docker Hub credentials are working"
+- chmod +x gradlew
+- echo "Testing Docker Hub credentials"
+- docker -v
+- docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+- echo "Docker Hub credentials are working"
 after_success:
-  - export ACTUAL_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-  - echo "Test Success - Branch($TRAVIS_BRANCH) Actual($ACTUAL_BRANCH) Pull Request($TRAVIS_PULL_REQUEST) Tag($TRAVIS_TAG) Commit($TRAVIS_COMMIT) PR($TRAVIS_PULL_REQUEST) Build($TRAVIS_BUILD_NUMBER)"
-  - if [[ "$ACTUAL_BRANCH" == "master" ]]; then echo -e "Push Container to Docker Hub"; fi
-  - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
-  - export REPO=aista/user-service
-  - export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo ""; fi`
-  - docker build -f Dockerfile -t $REPO:$TAG .
-  - docker push $REPO
+- export ACTUAL_BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH;
+  else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+- echo "Test Success - Branch($TRAVIS_BRANCH) Actual($ACTUAL_BRANCH) Pull Request($TRAVIS_PULL_REQUEST)
+  Tag($TRAVIS_TAG) Commit($TRAVIS_COMMIT) PR($TRAVIS_PULL_REQUEST) Build($TRAVIS_BUILD_NUMBER)"
+- if [[ "$ACTUAL_BRANCH" == "master" ]]; then echo -e "Push Container to Docker Hub";
+  fi
+- docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+- export REPO=aista/user-service
+- export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo "";
+  fi`
+- docker build -f Dockerfile -t $REPO:$TAG .
+- docker push $REPO
 notifications:
   slack:
     rooms:
-      secure: hPwwnhcSz7aM/4OidYpTvIvNzu2KBMLbO6nK8XKYugUFcN8otPZ9kN85dUyiV6NUJPRwoOZCo0JtuJUXlbq0K8NCsQThnXyU0i9G/zSqFj8HHXhqFUhrqyG+0G1vreHzvNTiHvVXedyMHDsLfJLYyPdiTPH38hHFqmBId3yAG6InF7332DLxGljEm/MR29xIPoadJziQjWBg9BaFqKzHiqEb6z06AYGj6r3eG9sF9k9bSJmF1l1i45vv3f107l6N/F0P85qy4NOhGkYAUMYatGeIsECEytAUxOvhxHQz6WJTUzgEaXnnxm9sFmNhLmCdzEYAXzdlJ8KsqLzgGXuRoe+i+qJuEe0Tq3iYEkoGj2olimcKqTYgMmlkmPXQKDUsKYGRSrg79hTSw5EiGx1UZRxa2b1G4N9tUaAaj558UWa0/WQsGSzdwJRfDCk+NU8cpfPpYiMxgYYALFJX8HBjcXuSQ36e5YxWl3i82qyx7FBlRBCaqbzrpFA2AnqS7gznRT8LTUQ5ooWwFRygjkEn39bM9xdCc1VWYH/OLPo3pfAiAGwL80TVXR20pVsb/OS/ErU68LqOQ62XuCi7Pr8WnxY+T+Gh9CbMPyQCKabXun11hrSjYxTPeGaJCGxW4/cyO4XkrmcBryP2AipCe+eXNkVUJQOG0yQMqxqbf0K6BwE=
+      secure: PAMI8SGlDH6zXoMK2+bXsh1OEd27eOaQEnpNl6nPFCzi1kww3IvRNG09A4t9ZKfT3ZzuQZT/6RNTOuF1isXLD3V3sgP/xZs+29D8zdYXeTeBUeJeBODM3rOVNiG902DSW/7RKysC7jdgnZ+xR9P/6+EIjHPBxy4+mF9tFNr/BkOSYohjxY6geKapIU2GyiM4ytlibAcwJ4wzbZaogevPxYm44pr4ySGIzEoRZpLfshj70BagAtMf1z7bk4IidNHMj7BG9d8loEPAJuIHJ92uBBK8gdSojKaKuRj2LphXD9cETSTkHfjkgKbrh4X1QtbIYyrFiO6Btg3EMKT6j/ldvWTlpo9ZGIj0/tEaqVGJeMgPqYokYyYC6QjUmpZ/iUocghSBi9BVfj1rFZhzlpyKn5i7n9r1FPI0pveVFxPBQn0guHr+/JJTixAl64vLCmagrhmUbD70bXd/U8C0NaFwjvd6Pg56oc83zoS4AG4/eFTe5lsAs5notpEDR7wAuvrqTW7qhsCTvsMaxH0IPAP5T/uKp5CqsJIuBtFsngDWpPYQLmTdYHZCfOF08hG9z++VGwQFYlklb+U4bo17KNFZmxdkLisF1wCjX4Fz2Kn0+dV/RrVtZsT3lL8L6JLAbtYXKUlJGzdm69pk12dZQ7R94cjhUZ+q+InU5XQZFmQE05c=
     on_success: always
     on_failure: always
-
