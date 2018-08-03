@@ -28,3 +28,10 @@ after_success:
   - export TAG=`if [ "$ACTUAL_BRANCH" == "master" ]; then echo "latest";else echo ""; fi`
   - docker build -f Dockerfile -t $REPO:$TAG .
   - docker push $REPO
+notifications:
+  slack:
+    rooms:
+      secure: hPwwnhcSz7aM/4OidYpTvIvNzu2KBMLbO6nK8XKYugUFcN8otPZ9kN85dUyiV6NUJPRwoOZCo0JtuJUXlbq0K8NCsQThnXyU0i9G/zSqFj8HHXhqFUhrqyG+0G1vreHzvNTiHvVXedyMHDsLfJLYyPdiTPH38hHFqmBId3yAG6InF7332DLxGljEm/MR29xIPoadJziQjWBg9BaFqKzHiqEb6z06AYGj6r3eG9sF9k9bSJmF1l1i45vv3f107l6N/F0P85qy4NOhGkYAUMYatGeIsECEytAUxOvhxHQz6WJTUzgEaXnnxm9sFmNhLmCdzEYAXzdlJ8KsqLzgGXuRoe+i+qJuEe0Tq3iYEkoGj2olimcKqTYgMmlkmPXQKDUsKYGRSrg79hTSw5EiGx1UZRxa2b1G4N9tUaAaj558UWa0/WQsGSzdwJRfDCk+NU8cpfPpYiMxgYYALFJX8HBjcXuSQ36e5YxWl3i82qyx7FBlRBCaqbzrpFA2AnqS7gznRT8LTUQ5ooWwFRygjkEn39bM9xdCc1VWYH/OLPo3pfAiAGwL80TVXR20pVsb/OS/ErU68LqOQ62XuCi7Pr8WnxY+T+Gh9CbMPyQCKabXun11hrSjYxTPeGaJCGxW4/cyO4XkrmcBryP2AipCe+eXNkVUJQOG0yQMqxqbf0K6BwE=
+    on_success: always
+    on_failure: always
+
