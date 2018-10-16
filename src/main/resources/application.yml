@@ -7,7 +7,7 @@ spring:
     dispatch-options-request: true
   
   datasource:
-    url: jdbc:mysql://${DOCKER_MACHINE_IP:mysqlserver}:3306/user_service
+    url: jdbc:mysql://${MYSQL_HOST:mysqlserver}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -25,7 +25,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://${DOCKER_MACHINE_IP:discoveryservice}:8761/eureka/
+        defaultZone: http://${EUREKA_SERVER:discoveryservice}:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -43,7 +43,7 @@ spring:
   profiles: docker
   
   datasource:
-    url: jdbc:mysql://mysqlserver:3306/user_service
+    url: jdbc:mysql://${MYSQL_HOST:mysqlserver}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -61,7 +61,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://discovery-service:8761/eureka/
+        defaultZone: http://${EUREKA_SERVER:discoveryservice}:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -82,11 +82,9 @@ jpa:
 ---
 spring:
   profiles: test
-  rabbitmq:
-    host: ${DOCKER_MACHINE_IP:rabbitmq}
   
   datasource:
-    url: jdbc:mysql://${DOCKER_MACHINE_IP:localhost}:3306/user_service
+    url: jdbc:mysql://${MYSQL_HOST:mysqlserver}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -104,7 +102,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://${DOCKER_MACHINE_IP:localhost}:8761/eureka/
+        defaultZone: http://${EUREKA_SERVER:discoveryservice}:8761/eureka/
 
 server:
   contextPath:   /auth
