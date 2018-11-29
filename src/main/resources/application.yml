@@ -5,9 +5,10 @@ spring:
   profiles: dev
   mvc:
     dispatch-options-request: true
-  
+  rabbitmq:
+    host: ${RABBIT_HOST:rabbitmq}
   datasource:
-    url: jdbc:mysql://${DOCKER_MACHINE_IP:mysqlserver}:3306/user_service
+    url: jdbc:mysql://${MYSQL_HOST:mysqlserver}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -25,7 +26,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://${DOCKER_MACHINE_IP:discoveryservice}:8761/eureka/
+        defaultZone: http://${EUREKA_SERVER:discoveryservice}:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -36,14 +37,15 @@ security.oauth2.resource.filter-order: 3
 axon:
   cluster-name: ${spring.application.name}
 
-signing.key: “front-end-signing-key”
+signing.key: "front-end-signing-key"
 
 ---
 spring:
   profiles: docker
-  
+  rabbitmq:
+    host: ${RABBIT_HOST:rabbitmq}
   datasource:
-    url: jdbc:mysql://mysqlserver:3306/user_service
+    url: jdbc:mysql://${MYSQL_HOST:mysqlserver}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -61,7 +63,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://discovery-service:8761/eureka/
+        defaultZone: http://${EUREKA_SERVER:discoveryservice}:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -72,7 +74,7 @@ security.oauth2.resource.filter-order: 3
 axon:
   cluster-name: ${spring.application.name}
 
-signing.key: “front-end-signing-key”
+signing.key: "front-end-signing-key"
   
 jpa:
   database: MYSQL
@@ -83,10 +85,9 @@ jpa:
 spring:
   profiles: test
   rabbitmq:
-    host: ${DOCKER_MACHINE_IP:rabbitmq}
-  
+    host: ${DOCKER_IP:localhost}
   datasource:
-    url: jdbc:mysql://${DOCKER_MACHINE_IP:localhost}:3306/user_service
+    url: jdbc:mysql://${DOCKER_IP:localhost}:3306/user_service
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
@@ -104,7 +105,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-        defaultZone: http://${DOCKER_MACHINE_IP:localhost}:8761/eureka/
+        defaultZone: http://${DOCKER_IP:localhost}:8761/eureka/
 
 server:
   contextPath:   /auth
@@ -114,4 +115,4 @@ security.oauth2.resource.filter-order: 3
 axon:
   cluster-name: ${spring.application.name}
 
-signing.key: “front-end-signing-key”
+signing.key: "front-end-signing-key"

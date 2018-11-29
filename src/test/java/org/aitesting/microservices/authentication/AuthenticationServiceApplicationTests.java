@@ -69,7 +69,10 @@ public class AuthenticationServiceApplicationTests {
     public static DockerComposeRule docker = DockerComposeRule.builder().removeConflictingContainersOnStartup(true)
             .shutdownStrategy(ShutdownStrategy.GRACEFUL).pullOnStartup(true)
             .file("src/test/resources/docker-compose.yml")
-            .waitingForService("mysqlserver", HealthChecks.toHaveAllPortsOpen()).build();
+            .waitingForService("discoveryservice", HealthChecks.toHaveAllPortsOpen())
+            .waitingForService("mysqlserver", HealthChecks.toHaveAllPortsOpen())
+            .waitingForService("rabbitmq", HealthChecks.toHaveAllPortsOpen())
+            .build();
 
     // Get token
     @Before
